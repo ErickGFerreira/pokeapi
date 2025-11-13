@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Pokedex</string>
+    <string name="string.banner_image_error">Erro ao carregar imagem</string>
+</resources>

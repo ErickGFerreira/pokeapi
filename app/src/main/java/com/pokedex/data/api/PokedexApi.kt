@@ -2,11 +2,12 @@ package com.pokedex.data.api
 
 import com.pokedex.data.response.PokemonDetailResponse
 import com.pokedex.data.response.PokemonsListResponse
+import com.pokedex.utils.security.SecurityEndpoints.PokedexBackend.POKEMON
 import retrofit2.http.GET
 import retrofit2.http.Url
 
 interface PokedexApi {
-    @GET("pokemon")
+    @GET(POKEMON)
     suspend fun getPokemonList(): PokemonsListResponse
 
     @GET

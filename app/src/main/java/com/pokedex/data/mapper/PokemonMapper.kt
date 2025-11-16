@@ -25,7 +25,7 @@ object PokemonMapper {
 
     fun PokemonDetailResponse.toPokemonDetail() =
         PokemonDetail(
-            type = type.map { it.toPokemonType() },
+            types = types.map { it.toPokemonType() },
             sprites = sprites.toSprite(),
         )
 

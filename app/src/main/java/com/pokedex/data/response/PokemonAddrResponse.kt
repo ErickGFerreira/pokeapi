@@ -12,5 +12,16 @@ data class PokemonAddrResponse(
                 name = "name",
                 url = "url",
             )
+
+        fun mockList() =
+            listOf(
+                PokemonAddrResponse(
+                    name = "name",
+                    url = "url"
+                ), PokemonAddrResponse(
+                    name = "name",
+                    url = "url"
+                )
+            )
     }
 }

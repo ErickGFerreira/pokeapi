@@ -1,6 +1,7 @@
 package com.pokedex.domain.usecase
 
 import com.pokedex.domain.model.Pokemon
+import com.pokedex.domain.model.PokemonAddr
 import com.pokedex.utils.safe.getOrThrow
 import com.pokedex.utils.safe.safeRunDispatcher
 import javax.inject.Inject
@@ -11,16 +12,14 @@ class PokemonUseCase @Inject constructor(
 ) {
     suspend fun execute() =
         safeRunDispatcher {
-            val pokemonList = mutableListOf<Pokemon>()
-            val pokemonAddrList = getPokemonListUseCase.execute().getOrThrow()
-            pokemonAddrList.results.forEach {
-                val detail = getPokemonDetailUseCase.execute(it.url).getOrThrow()
-                pokemonList.add(
-                    Pokemon(
-                        name = it.name,
-                        imageUrl = detail.sprites.frontDefault,
-                        type = detail.type.first().type.name
-                    )
+            val pokemonList = getPokemonListUseCase.execute().getOrThrow().results.map { addr ->
+                val detail = getPokemonDetailUseCase.execute(addr.url).getOrThrow()
+                Pokemon(
+                    name = addr.name,
+                    imageUrl = detail.sprites.frontDefault,
+                    type = detail.types.map {
+                        it.type
+                    }
                 )
             }
             return@safeRunDispatcher pokemonList

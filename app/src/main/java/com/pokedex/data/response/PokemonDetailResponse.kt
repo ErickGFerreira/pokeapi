@@ -3,17 +3,13 @@ package com.pokedex.data.response
 import com.google.gson.annotations.SerializedName
 
 data class PokemonDetailResponse(
-    @SerializedName("types") val type: List<PokemonTypeResponse>,
+    @SerializedName("types") val types: List<PokemonTypeResponse>,
     @SerializedName("sprites") val sprites: SpriteResponse
 ) {
     companion object {
         fun mock() =
             PokemonDetailResponse(
-                type = listOf(
-                    PokemonTypeResponse(
-                        PokemonAddrResponse.mock()
-                    )
-                ),
+                types = listOf(),
                 sprites = SpriteResponse.mock()
             )
     }

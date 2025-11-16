@@ -1,24 +1,29 @@
 package com.pokedex.feature.pokemons
 
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -27,7 +32,6 @@ import com.pokedex.feature.pokemons.PokemonsListUiEvent.Event.Finish
 import com.pokedex.feature.pokemons.PokemonsListUiEvent.Event.NavigateToPokemonDetail
 import com.pokedex.ui.component.PokemonCard
 import com.pokedex.ui.component.ScreenError
-import com.pokedex.ui.dimen.Size
 import com.pokedex.ui.dimen.SpacerVertical
 import com.pokedex.ui.dimen.Spacing
 import com.pokedex.utils.view.ScreenScaffold
@@ -112,48 +116,44 @@ private fun ScreenContent(
     onActionEvent: (PokemonListScreenAction) -> Unit,
     uiState: PokemonListUiState
 ) {
-    val lazyListState = rememberLazyListState()
-
-    Column(
-        modifier =
-            Modifier
-                .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        TrackingCardList(
-            lazyListState = lazyListState, uiState = uiState,
-            onActionEvent = onActionEvent
-        )
-    }
+    TrackingCardList(
+        uiState = uiState,
+        onActionEvent = onActionEvent,
+    )
 }
 
 @Composable
 private fun TrackingCardList(
-    lazyListState: LazyListState,
     uiState: PokemonListUiState,
     onActionEvent: (PokemonListScreenAction) -> Unit
 ) {
     val cardsPresentation by uiState.cardsPresentation.collectAsStateWithLifecycle()
+    val lazyListState = rememberLazyListState()
+
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = Spacing.SM),
+            .windowInsetsPadding(WindowInsets.statusBars)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         state = lazyListState
     ) {
         item { SpacerVertical(Spacing.XS) }
-        items(cardsPresentation) { presentation ->
+        items(
+            items = cardsPresentation,
+            key = { pokemon -> pokemon.id }) { pokemonCard ->
             PokemonCard(
-                modifier = Modifier.size(Size.SizeXLG),
-                name = presentation.name,
-                type = presentation.type,
-                imageUrl = presentation.imageUrl
+                modifier = Modifier
+                    .padding(horizontal = Spacing.MD)
+                    .background(Color.Transparent),
+                name = pokemonCard.name,
+                types = pokemonCard.type,
+                imageUrl = pokemonCard.imageUrl,
+                bordercolor = pokemonCard.borderColor,
             )
-            SpacerVertical(Spacing.MD)
+            SpacerVertical(Spacing.SM)
         }
     }
 }
-
 
 @Preview
 @Composable

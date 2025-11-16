@@ -4,4 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 data class PokemonTypeResponse(
     @SerializedName("type") val type: PokemonAddrResponse,
-)
+) {
+    companion object {
+        fun mock() = PokemonTypeResponse(
+            type = PokemonAddrResponse.mock()
+        )
+    }
+}

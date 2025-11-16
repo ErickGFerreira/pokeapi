@@ -1,7 +1,6 @@
 package com.pokedex.domain.usecase
 
 import com.pokedex.domain.model.Pokemon
-import com.pokedex.domain.model.PokemonAddr
 import com.pokedex.utils.safe.getOrThrow
 import com.pokedex.utils.safe.safeRunDispatcher
 import javax.inject.Inject

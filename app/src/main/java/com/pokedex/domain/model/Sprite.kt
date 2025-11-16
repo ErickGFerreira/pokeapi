@@ -1,7 +1,5 @@
 package com.pokedex.domain.model
 
-import com.google.gson.annotations.SerializedName
-
 data class Sprite(
     val frontDefault: String,
 ){

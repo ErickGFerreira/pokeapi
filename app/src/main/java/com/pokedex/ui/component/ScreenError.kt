@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,7 +24,6 @@ import com.pokedex.R
 import com.pokedex.ui.dimen.Size
 import com.pokedex.ui.dimen.SpacerVertical
 import com.pokedex.ui.dimen.Spacing
-import com.pokedex.ui.dimen.Weight1
 import com.pokedex.ui.theme.Typography
 
 @Composable

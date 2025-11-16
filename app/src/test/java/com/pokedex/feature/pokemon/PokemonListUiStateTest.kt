@@ -1,9 +1,7 @@
 package com.pokedex.feature.pokemon
 
-import androidx.compose.ui.graphics.Color
 import com.pokedex.domain.model.Pokemon
 import com.pokedex.feature.pokemons.PokemonListUiState
-import com.pokedex.ui.component.ScreenError
 import com.pokedex.utils.error.Error
 import com.pokedex.utils.state.ScreenState
 import org.assertj.core.api.Assertions.assertThat

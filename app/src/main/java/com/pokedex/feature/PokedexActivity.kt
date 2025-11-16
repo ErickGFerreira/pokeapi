@@ -6,14 +6,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.pokedex.PokedexModule
+import com.pokedex.feature.PokedexUiEvent.Navigation.Finish
+import com.pokedex.feature.PokedexUiEvent.Navigation.PokemonList
+import com.pokedex.feature.pokemons.PokemonListScreen
+import com.pokedex.utils.navigatin.customNavigate
 import com.pokedex.utils.navigatin.setNavigationContent
 import com.pokedex.utils.view.BaseComposeActivity
 import com.pokedex.utils.viewmodel.SavedStateViewModelFactory
 import javax.inject.Inject
-import com.pokedex.feature.PokedexUiEvent.Navigation.PokemonList
-import com.pokedex.feature.PokedexUiEvent.Navigation.Finish
-import com.pokedex.feature.pokemons.PokemonListScreen
-import com.pokedex.utils.navigatin.customNavigate
 
 
 class PokedexActivity : BaseComposeActivity<PokedexViewModel>() {

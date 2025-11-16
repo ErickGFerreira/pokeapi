@@ -1,5 +1,6 @@
 package com.pokedex.feature.pokemon
 
+import androidx.compose.ui.graphics.Color
 import com.pokedex.domain.model.Pokemon
 import com.pokedex.feature.pokemons.PokemonListUiState
 import com.pokedex.ui.component.ScreenError
@@ -52,13 +53,15 @@ class PokemonListUiStateTest {
         val expectedPresentation =
             listOf(
                 PokemonListUiState.CardPresentation(
+                    id = 0,
                     name = "name",
-                    type = "name",
-                    imageUrl = "front_default"
+                    type = "name/name",
+                    imageUrl = "front_default",
                 ), PokemonListUiState.CardPresentation(
+                    id = 1,
                     name = "name",
-                    type = "name",
-                    imageUrl = "front_default"
+                    type = "name/name",
+                    imageUrl = "front_default",
                 )
             )
 

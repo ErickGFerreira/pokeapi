@@ -6,7 +6,16 @@ data class PokemonType(
     companion object {
         fun mock() =
             PokemonType(
-               type = PokemonAddr.mock()
+                type = PokemonAddr.mock()
+            )
+
+        fun mockList() =
+            listOf(
+                PokemonType(
+                    type = PokemonAddr.mock()
+                ), PokemonType(
+                    type = PokemonAddr.mock()
+                )
             )
     }
 }

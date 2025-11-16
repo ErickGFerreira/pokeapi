@@ -4,6 +4,7 @@ import androidx.compose.ui.unit.dp
 
 object Size {
 
+    val Size2 = 2.dp
     val Size1 = 1.dp
     val Size0 = 0.dp
     val Size4 = 4.dp

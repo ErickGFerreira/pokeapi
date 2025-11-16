@@ -10,12 +10,12 @@ data class Pokemon(
             Pokemon(
                 name = "name",
                 imageUrl = "front_default",
-                type = listOf()
+                type = PokemonAddr.mockList()
             ),
             Pokemon(
                 name = "name",
                 imageUrl = "front_default",
-                type = listOf()
+                type = PokemonAddr.mockList()
             )
         )
     }

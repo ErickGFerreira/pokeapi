@@ -78,6 +78,6 @@ class PokemonListUiState @Inject constructor() {
         val name: String,
         val type: String,
         val imageUrl: String,
-        val borderColor: Color
+        val borderColor: Color = Color.Gray
     )
 }

@@ -9,7 +9,7 @@ data class PokemonDetailResponse(
     companion object {
         fun mock() =
             PokemonDetailResponse(
-                types = listOf(),
+                types = PokemonTypeResponse.mockList(),
                 sprites = SpriteResponse.mock()
             )
     }

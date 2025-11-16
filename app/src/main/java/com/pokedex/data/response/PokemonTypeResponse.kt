@@ -9,5 +9,10 @@ data class PokemonTypeResponse(
         fun mock() = PokemonTypeResponse(
             type = PokemonAddrResponse.mock()
         )
+
+        fun mockList() = listOf(
+            PokemonTypeResponse.mock(),
+            PokemonTypeResponse.mock(),
+        )
     }
 }

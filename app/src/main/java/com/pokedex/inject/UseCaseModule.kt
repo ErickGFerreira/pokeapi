@@ -12,9 +12,9 @@ class UseCaseModule {
 
     @Provides
     fun provideGetPokemonListUseCase(repository: PokedexRepository) =
-        GetPokemonListUseCase {
+        GetPokemonListUseCase { currentPage ->
             safeRunDispatcher {
-                repository.getPokemonList()
+                repository.getPokemonList(currentPage = currentPage)
             }
         }
 

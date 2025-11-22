@@ -12,7 +12,7 @@ object Size {
     val Size176 = 176.dp
     val SizeSM = 16.dp
     val SizeSSM = 32.dp
-
     val SizeXLG = 200.dp
+    val size84 = 84.dp
 
 }

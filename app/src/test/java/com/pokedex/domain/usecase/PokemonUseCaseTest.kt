@@ -14,6 +14,7 @@ import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
+import kotlin.random.Random
 
 
 class PokemonUseCaseTest {
@@ -22,6 +23,8 @@ class PokemonUseCaseTest {
     private val getPokemonDetailUseCase: GetPokemonDetailUseCase = mockk()
 
     private lateinit var useCase: PokemonUseCase
+
+    private val currentPage = Random.nextInt()
 
     @Before
     fun setup() {
@@ -40,12 +43,12 @@ class PokemonUseCaseTest {
             mockGetPushProvisioningDetailUseCaseSuccess()
 
             // when
-            val result = useCase.execute()
+            val result = useCase.execute(currentPage = currentPage)
 
             // then
             assertThat(result.getOrThrow()).isEqualTo(Pokemon.mockList())
             coVerifyOrder {
-                getPokemonListUseCase.execute()
+                getPokemonListUseCase.execute(currentPage = currentPage)
                 getPokemonDetailUseCase.execute(url = "url")
             }
         }
@@ -58,12 +61,12 @@ class PokemonUseCaseTest {
             mockGetPokemonListUseCaseSuccess(result = Result.Failure(error = ErrorHandler.timeOutError))
 
             // when
-            val result = useCase.execute()
+            val result = useCase.execute(currentPage = currentPage)
 
             // then
             assertThat(result.isFailure()).isTrue()
             coVerifyOrder {
-                getPokemonListUseCase.execute()
+                getPokemonListUseCase.execute(currentPage = currentPage)
             }
         }
 
@@ -75,12 +78,12 @@ class PokemonUseCaseTest {
             mockGetPushProvisioningDetailUseCaseSuccess(result = Result.Failure(error = ErrorHandler.timeOutError))
 
             // when
-            val result = useCase.execute()
+            val result = useCase.execute(currentPage = currentPage)
 
             // then
             assertThat(result.isFailure()).isTrue()
             coVerifyOrder {
-                getPokemonListUseCase.execute()
+                getPokemonListUseCase.execute(currentPage = currentPage)
                 getPokemonDetailUseCase.execute(url = "url")
             }
         }
@@ -93,7 +96,7 @@ class PokemonUseCaseTest {
                 data = POKEMON_LIST,
             ),
     ) {
-        coEvery { getPokemonListUseCase.execute() } returns result
+        coEvery { getPokemonListUseCase.execute(currentPage = any()) } returns result
     }
 
     private fun mockGetPushProvisioningDetailUseCaseSuccess(

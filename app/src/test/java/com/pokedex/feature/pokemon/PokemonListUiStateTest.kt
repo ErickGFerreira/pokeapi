@@ -16,16 +16,29 @@ class PokemonListUiStateTest {
         uiState = PokemonListUiState()
     }
 
-
     @Test
-    fun `given pokemon list, when showScreen, then show content with correct samsung data`() {
+    fun `given pokemon list, when showScreen, then show content with correct data`() {
 
         // when
         uiState.showScreen(
             pokemonList = Pokemon.mockList()
         )
         // then
-        assertThat(uiState.cardsPresentation.value).isEqualTo(expectedPresentation)
+        assertThat(uiState.screenPresentation.value).isEqualTo(expectedPresentation)
+        assertThat(uiState.screenState.value).isEqualTo(ScreenState.ScreenContent)
+    }
+
+    @Test
+    fun `given paginating equals true, when load new pokemons, then show paginating progress on screen content`() {
+
+        // when
+        uiState.setupPaginating(isPaginating = true)
+        // then
+        assertThat(uiState.screenPresentation.value).isEqualTo(
+            expectedPresentation.copy(
+                isPaginating = true
+            )
+        )
         assertThat(uiState.screenState.value).isEqualTo(ScreenState.ScreenContent)
     }
 
@@ -40,7 +53,7 @@ class PokemonListUiStateTest {
     @Test
     fun `given showProgress, then change screenState to ScreenProgress`() {
         // when
-        uiState.showProgress()
+        uiState.showLoading()
         // then
         assertThat(uiState.screenState.value).isEqualTo(ScreenState.ScreenProgress)
     }
@@ -48,20 +61,10 @@ class PokemonListUiStateTest {
 
     private companion object {
         val ERROR_MOCK = Error(message = "erro", code = "1", title = "error title")
-        val expectedPresentation =
-            listOf(
-                PokemonListUiState.CardPresentation(
-                    id = 0,
-                    name = "name",
-                    type = "name/name",
-                    imageUrl = "front_default",
-                ), PokemonListUiState.CardPresentation(
-                    id = 1,
-                    name = "name",
-                    type = "name/name",
-                    imageUrl = "front_default",
-                )
-            )
+        val expectedPresentation = PokemonListUiState.Presentation(
+            pokemons = Pokemon.mockList(),
+            isPaginating = false
+        )
 
     }
 }

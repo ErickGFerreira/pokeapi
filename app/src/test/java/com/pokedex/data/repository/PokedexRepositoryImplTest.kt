@@ -14,10 +14,13 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import java.net.SocketTimeoutException
+import kotlin.random.Random
 
 class PokedexRepositoryImplTest {
     private val api = mockk<PokedexApi>(relaxed = true)
     private lateinit var repository: PokedexRepository
+
+    private val currentPage = Random.nextInt()
 
     @Before
     fun setUp() {
@@ -25,29 +28,29 @@ class PokedexRepositoryImplTest {
     }
 
     @Test
-    fun `given success, when get getCardOptionsList, then return CREDIT_CARD_OPTIONS`() =
+    fun `given success, when get getPokemonList, then return POKEMON_LIST`() =
         runBlocking {
             // given
             mockGetPokemonListSucess()
 
             // when
-            val result = repository.getPokemonList()
+            val result = repository.getPokemonList(currentPage)
 
             // then
             coVerify {
-                api.getPokemonList()
+                api.getPokemonList(currentPage)
             }
             assertEquals(POKEMON_LIST, result)
         }
 
     @Test(expected = SocketTimeoutException::class)
-    fun `given failure, when getCardOptionsList, then throws SocketTimeoutException`() =
+    fun `given failure, when getPokemonList, then throws SocketTimeoutException`() =
         runBlocking<Unit> {
             // given
             mockGetPokemonListFailure()
 
             // when
-            repository.getPokemonList()
+            repository.getPokemonList(currentPage)
         }
 
     @Test
@@ -80,13 +83,13 @@ class PokedexRepositoryImplTest {
 
     private fun mockGetPokemonListSucess() {
         coEvery {
-            api.getPokemonList()
+            api.getPokemonList(any())
         } returns POKEMON_LIST_RESPONSE
     }
 
     private fun mockGetPokemonListFailure() {
         coEvery {
-            api.getPokemonList()
+            api.getPokemonList(any())
         } throws SocketTimeoutException()
     }
 

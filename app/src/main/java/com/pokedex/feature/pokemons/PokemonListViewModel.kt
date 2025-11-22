@@ -15,10 +15,9 @@ class PokemonListViewModel @Inject constructor(
     val uiEvent: PokemonsListUiEvent,
 ) : ViewModel() {
 
-    var flowData = PokedexViewModel.FlowData()
+    private var currentPage = 0
 
-        fun setup(flowData: PokedexViewModel.FlowData) {
-        this.flowData = flowData
+    fun setup(flowData: PokedexViewModel.FlowData) {
         getPokemonList()
     }
 
@@ -27,19 +26,42 @@ class PokemonListViewModel @Inject constructor(
             closeButtonAction = ::finish,
             errorCloseButtonAction = ::finish,
             errorButtonAction = { getPokemonList() },
+            errorPaginationButtonAction = {
+                uiState.hidePaginationError()
+                loadMorePokemons(page = currentPage)
+            },
             goToPokemonDetailAction = {},
+            paginateAction = {
+                currentPage++
+                loadMorePokemons(page = currentPage)
+            },
+            onToastDismissedAction = {
+                uiState.hidePaginationError()
+            }
         )
 
     @VisibleForTesting
     fun getPokemonList() {
         viewModelScope.launch {
-
-            uiState.showProgress()
+            uiState.showLoading()
             pokemonUseCase.execute().fold(
                 onSuccess = { pokemonList ->
                     uiState.showScreen(pokemonList = pokemonList)
                 },
-                onFailure = uiState::showError,
+                onFailure = uiState::showError
+            )
+        }
+    }
+
+    @VisibleForTesting
+    fun loadMorePokemons(page: Int) {
+        viewModelScope.launch {
+            uiState.setupPaginating(isPaginating = true)
+            pokemonUseCase.execute(currentPage = page).fold(
+                onSuccess = { pokemonList ->
+                    uiState.showScreen(pokemonList = pokemonList)
+                },
+                onFailure = uiState::showPaginationError
             )
         }
     }

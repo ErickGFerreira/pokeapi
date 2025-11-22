@@ -15,6 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.random.Random
 
 @ExperimentalCoroutinesApi
 class PokemonListViewModelTest {
@@ -30,6 +31,8 @@ class PokemonListViewModelTest {
 
     private lateinit var viewModel: PokemonListViewModel
 
+    private val currentPage = Random.nextInt()
+
     @Before
     fun setup() {
         viewModel =
@@ -41,11 +44,11 @@ class PokemonListViewModelTest {
     }
 
     @Test
-    fun `given getPokemonList success, when getPokemonList, then show screen with data`() =
+    fun `given getPokemonList success, when getPokemonList with first page, then show screen with data`() =
         coroutinesTestRule.runTest {
             // Given
             coEvery {
-                pokemonUseCase.execute()
+                pokemonUseCase.execute(currentPage = 0)
             } returns Result.Success(data = POKEMON_LIST.toMutableList())
 
             // When
@@ -53,8 +56,29 @@ class PokemonListViewModelTest {
 
             // Then
             coVerifyOrder {
-                uiState.showProgress()
+                uiState.showLoading()
                 pokemonUseCase.execute()
+                uiState.showScreen(
+                    pokemonList = POKEMON_LIST
+                )
+            }
+        }
+
+    @Test
+    fun `given loadMorePokemons success, when pagination, then show screen with data`() =
+        coroutinesTestRule.runTest {
+            // Given
+            coEvery {
+                pokemonUseCase.execute(currentPage = currentPage)
+            } returns Result.Success(data = POKEMON_LIST.toMutableList())
+
+            // When
+            viewModel.loadMorePokemons(page = currentPage)
+
+            // Then
+            coVerifyOrder {
+                uiState.setupPaginating(isPaginating = true)
+                pokemonUseCase.execute(currentPage = currentPage)
                 uiState.showScreen(
                     pokemonList = POKEMON_LIST
                 )
@@ -73,7 +97,7 @@ class PokemonListViewModelTest {
                 action = PokemonListScreenAction.ErrorButtonAction
             )
             coVerifyOrder {
-                uiState.showProgress()
+                uiState.showLoading()
                 pokemonUseCase.execute()
                 uiState.showScreen(
                     pokemonList = POKEMON_LIST,

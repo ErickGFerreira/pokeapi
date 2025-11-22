@@ -4,11 +4,14 @@ import com.pokedex.data.response.PokemonDetailResponse
 import com.pokedex.data.response.PokemonsListResponse
 import com.pokedex.utils.security.SecurityEndpoints.PokedexBackend.POKEMON
 import retrofit2.http.GET
+import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface PokedexApi {
     @GET(POKEMON)
-    suspend fun getPokemonList(): PokemonsListResponse
+    suspend fun getPokemonList(
+        @Query("offset") offset: Int
+    ): PokemonsListResponse
 
     @GET
     suspend fun getPokemonDetail(@Url url: String): PokemonDetailResponse

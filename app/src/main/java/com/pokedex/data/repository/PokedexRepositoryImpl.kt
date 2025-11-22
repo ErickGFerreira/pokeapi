@@ -11,8 +11,8 @@ import javax.inject.Inject
 class PokedexRepositoryImpl @Inject constructor(
     private val api: PokedexApi,
 ) : PokedexRepository {
-    override suspend fun getPokemonList(): PokemonList =
-        api.getPokemonList().toPokemonList()
+    override suspend fun getPokemonList(currentPage: Int): PokemonList =
+        api.getPokemonList(offset = 20 * currentPage).toPokemonList()
 
     override suspend fun getPokemonDetail(url: String): PokemonDetail =
         api.getPokemonDetail(url).toPokemonDetail()

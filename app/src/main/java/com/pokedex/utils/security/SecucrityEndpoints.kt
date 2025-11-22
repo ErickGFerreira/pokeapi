@@ -4,6 +4,6 @@ object SecurityEndpoints {
 
     object PokedexBackend {
         const val API = "https://pokeapi.co/api/v2/"
-        const val POKEMON = "$API/pokemon"
+        const val POKEMON = "pokemon"
     }
 }
